@@ -7,7 +7,7 @@ import DisplayTabs from "./Screens/HomeScreen"
 import TopBarNavigator from "./Navigators/TopBarNavigator";
 import BottomBarNavigator from "./Navigators/BottomBarNavigator"
 
-
+// Testing changes
 const Stack = createNativeStackNavigator(); //similar to Stack data structure
 
 export default function App() {
