@@ -19,7 +19,6 @@ export default function App() {
         <Stack.Screen name = "SignUp" component = {SignUp} />
         <Stack.Screen name = "HomeScreen" component = {DisplayTabs} />
         <Stack.Screen name = "Profile" component = {BottomBarNavigator} />
-        {/* <Stack.Screen></Stack.Screen>  IGNORE THIS TEST*/}
       </Stack.Navigator>
     </NavigationContainer>
 
