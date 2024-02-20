@@ -5,7 +5,9 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import FruitScreen from './FruitScreen';
 import VegetableScreen from './VegetableScreen';
-import SweetsScreen from './SweetsScreen';
+import SnacksScreen from './SnacksScreen';
+import MeatScreen from './MeatScreen';
+import DairyScreen from './DairyScreen';
 import CheckList from './CheckList';
 
 const Tab = createMaterialTopTabNavigator();
@@ -33,9 +35,19 @@ function DisplayTabs() {
                 options = {{topBarLabel : 'Vegetable'}}
             />
 
-            <Tab.Screen name = "Sweets"
-                component = {SweetsScreen}
-                options = {{topBarLabel : 'SweetsScreen'}}
+            <Tab.Screen name = "Snacks"
+                component = {SnacksScreen}
+                options = {{topBarLabel : 'SnacksScreen'}}
+            />
+
+            <Tab.Screen name = "Meat"
+                component = {MeatScreen}
+                options = {{topBarLabel : 'MeatScreen'}}
+            />
+
+            <Tab.Screen name = "Dairy"
+                component = {DairyScreen}
+                options = {{topBarLabel : 'DairyScreen'}}
             />
 
             <Tab.Screen name = "Check List" component = {CheckList} options = {{topbarLabel : 'Checklist'}} />
