@@ -1,10 +1,10 @@
-import {React} from 'react';
+import { React } from 'react'
 import { View, Text, StyleSheet, Button, TextInput, Alert, Image, FlatList, SafeAreaView } from "react-native";
 import { useState } from 'react';
-import { vegetables } from '../Utils/Data';
+import { meats } from '../Utils/Data';
 import { AntDesign } from '@expo/vector-icons';
 
-export default function VegetableScreen() {
+export default function MeatScreen() {
     const [quantity, setQuantity] = useState(0)
 
     const handleSubtraction = () => {
@@ -24,7 +24,7 @@ export default function VegetableScreen() {
         <View style={{ paddingLeft: 20, paddingVertical: 10 }}>
             <SafeAreaView />
             <FlatList
-                data={vegetables}
+                data={meats}
                 renderItem={({ item, index }) => (
                     <View
                         style={{
@@ -41,7 +41,7 @@ export default function VegetableScreen() {
                             source={item.img}
                         />
                         <View style={{ paddingVertical: 20}}>
-                            <Text style={{ fontSize: 16, fontWeight: 600, alignSelf: "center" }}>
+                            <Text style={{ fontSize: 16, fontWeight: 600, alignSelf: "center"}}>
                                 {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
                             </Text>
                         </View>

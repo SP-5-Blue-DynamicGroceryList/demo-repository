@@ -1,15 +1,17 @@
-import {React} from 'react'
-import {View, Text, StyleSheet, Button, TextInput, Alert, Image} from "react-native";
+import { React } from 'react'
+import { View, Text, StyleSheet, Button, TextInput, Alert, Image, FlatList, SafeAreaView } from "react-native";
 import { useState } from 'react';
+import { fruits } from '../Utils/Data';
+import { AntDesign } from '@expo/vector-icons';
 
 export default function FruitScreen() {
-    const[quantity, setQuantity] = useState(0)
-    
+    const [quantity, setQuantity] = useState(0)
+
     const handleSubtraction = () => {
-        if(quantity >= 1) {
+        if (quantity >= 1) {
             setQuantity(quantity - 1);
         }
-        else{
+        else {
             setQuantity(0);
         }
     }
@@ -18,22 +20,44 @@ export default function FruitScreen() {
         setQuantity(quantity + 1);
     }
 
-
-
-    return(
-        <View
-        style = {{
-            flex : 1,
-            justifyContent : "center",
-            alignItems : "center",
-            backgroundColor : "#03CAFC"
-        }}>
-            <Text>FruitScreen</Text>
-            <Image source = {require('../Images/FruitImages/appleStockImage.jpg')} />
-            <Button title = "-" onPress={handleSubtraction}></Button>
-            <Text>{quantity}</Text>
-            <Button title = "+" onPress={handleAddition}></Button>
-            <Button title = "Add to Cart"></Button>
-        </View>    
+    return (
+        <View style={{ paddingLeft: 20, paddingVertical: 10 }}>
+            <SafeAreaView />
+            <FlatList
+                data={fruits}
+                renderItem={({ item, index }) => (
+                    <View
+                        style={{
+                            height: 300,
+                            borderColor: "#d3d3d3",
+                            borderWidth: 2,
+                            width: 350,
+                            marginVertical: 10,
+                            borderRadius: 15,
+                            justifyContent: "center"
+                        }}>
+                        <Image
+                            style={{ height: 150, resizeMode: 'contain', alignSelf: "center" }}
+                            source={item.img}
+                        />
+                        <View style={{ paddingVertical: 20}}>
+                            <Text style={{ fontSize: 16, fontWeight: 600, alignSelf: "center"}}>
+                                {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
+                            </Text>
+                        </View>
+                        <View
+                            style={{
+                                justifyContent: "space-around",
+                                flexDirection: "row",
+                            }}>
+                            <AntDesign name="minuscircleo" size={24} color="black" backgroundColor="transparent" onPress={handleSubtraction} />
+                            <Text style={{fontSize: 20}}>{item.qty}</Text>
+                            <AntDesign name="pluscircleo" size={24} color="black" backgroundColor="transparent" onPress={handleAddition} />
+                        </View>
+                        <Button title = "Add to List" />
+                    </View>
+                )}
+            />
+        </View>
     )
 }
