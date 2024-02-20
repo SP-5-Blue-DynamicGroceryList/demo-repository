@@ -1,16 +1,12 @@
 import React from 'react'
 import { StyleSheet, Text, View, Button, TextInput, Modal} from 'react-native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import Profile from "../Screens/Profile"
-import AccountInfo from "../Screens/AccountInfo"
 import { useState } from 'react'
 
 const Tab = createMaterialBottomTabNavigator();
-<<<<<<< HEAD
-
-
-=======
 //
+//Testing comment
+
 function Profile({navigation}){
     const[list, setList] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
@@ -96,13 +92,12 @@ function AccountInfo(){
         </View>    
     )
 }
->>>>>>> 041e7bf5ae98815dc4522ac792f63dfdd9acba31
 
 export default function BottomNavigation(){
     
     return(
     <Tab.Navigator
-        initialRouteName = "Profile" 
+        initialRouteName = "ProfileInfo" 
         tabBarOptions = {{
                 activeTintColor : "#E91E63",
                 labelStyle : {fontSize:12},

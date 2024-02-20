@@ -1,5 +1,6 @@
 import {React} from 'react'
 import {View, Text, StyleSheet, Button, TextInput, Alert} from "react-native";
+import { useState } from 'react';
 import { ScrollView } from 'react-native-web';
 
 export default function CheckList() {
@@ -7,16 +8,21 @@ export default function CheckList() {
     const[itemCount, setItemCount] = useState(0);
 
     const handleItem = () =>{
-        setItemCount(item + 1)
+        setItemCount(itemCount + 1)
     }
 
     return(
         <View style = {styles.container}>
-            <Button placeholder = 'Add Item' onPress={handleItem}></Button>
+            <Button title = 'Add Item' onPress={handleItem}></Button>
             <ScrollView>
                 {[...Array(itemCount).keys()].map(key => {
                     return(
-                        <Text key = {key}>Item</Text>
+                        <View>
+                            <Text key = {key}>Item</Text>
+                            <Button title = '-'></Button>
+                            <Button title = '+'></Button>
+                            <Button title = 'Delete Item'></Button>
+                        </View>
                     )
                 })}
             </ScrollView>
@@ -28,8 +34,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'row',
+    justifyContent: 'row',
   },
   button: {
     width: '33%',
