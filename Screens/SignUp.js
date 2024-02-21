@@ -17,18 +17,22 @@ export default function SignUp( {navigation} ) {
     }
 
     const handleVerifyPassword = (verifyPassword) => {
-        setVerifypassword(password);
+        setVerifypassword(verifyPassword);
         console.log(verifyPassword);
     }
     
     const createAccount = () =>{
        if(password == verifyPassword)
        {
-        Alert.alert("User added");
+        Alert.alert('User added', [
+          {text: 'Okay', onPress: () => console.log('Alert Closed')}
+        ]);
         navigation.navigate("LoginScreen");
        }
        else{
-        Alert.alert("Error");
+        Alert.alert('Error', [
+          {text: 'Okay', onPress: () => console.log('Alert Closed')}
+        ]);
        }
     }
     
