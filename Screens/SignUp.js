@@ -1,6 +1,7 @@
 import {View, Text, StyleSheet, Button, TextInput, Alert} from "react-native";
 import {useState} from 'react';
 
+
 export default function SignUp( {navigation} ) {
     const[userName, setUsername] = useState("");
     const[password, setPassword] = useState("");
@@ -21,20 +22,23 @@ export default function SignUp( {navigation} ) {
         console.log(verifyPassword);
     }
     
-    const createAccount = () =>{
-       if(password == verifyPassword)
-       {
-        Alert.alert('User added', [
-          {text: 'Okay', onPress: () => console.log('Alert Closed')}
-        ]);
-        navigation.navigate("LoginScreen");
-       }
-       else{
-        Alert.alert('Error', [
-          {text: 'Okay', onPress: () => console.log('Alert Closed')}
-        ]);
-       }
-    }
+    const createAccount = () => {
+      if (password === verifyPassword) {
+          Alert.alert(
+              'Success', 
+              'Success', 
+              [{text: 'Okay', onPress: () => console.log('Alert Closed')}], 
+          );
+          navigation.navigate("LoginScreen");
+      } else {
+          Alert.alert(
+              'Error', 
+              'Error', 
+              [{text: 'Okay', onPress: () => console.log('Alert Closed')}], 
+          );
+      }
+  };
+  
     
     return(
         

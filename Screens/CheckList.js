@@ -1,7 +1,7 @@
 import {React} from 'react'
 import {View, Text, StyleSheet, Button, TextInput, Alert} from "react-native";
 import { useState } from 'react';
-import { ScrollView } from 'react-native-web';
+import { ScrollView } from 'react-native';
 
 export default function CheckList() {
     

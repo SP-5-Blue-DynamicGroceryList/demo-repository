@@ -2,8 +2,8 @@ import React from 'react'
 import { StyleSheet, Text, View, Button, TextInput, Modal} from 'react-native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { useState } from 'react'
-import { ScrollView } from 'react-native-web';
-import { TouchableOpacity } from 'react-native-web';
+import { ScrollView } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 
 export default function Profile({navigation}){
     const[list, setList] = useState([]);
