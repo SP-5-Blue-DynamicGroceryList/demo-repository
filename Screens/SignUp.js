@@ -2,6 +2,7 @@ import {View, Text, StyleSheet, Button, TextInput, Alert} from "react-native";
 import {useState} from 'react';
 import { Dropdown } from 'react-native-element-dropdown';
 
+
 export default function SignUp( {navigation} ) {
      
     const[value, setValue] = useState("" | null);
@@ -37,20 +38,27 @@ export default function SignUp( {navigation} ) {
     }
 
     const handleVerifyPassword = (verifyPassword) => {
-        setVerifypassword(password);
+        setVerifypassword(verifyPassword);
         console.log(verifyPassword);
     }
     
-    const createAccount = () =>{
-       if(password == verifyPassword)
-       {
-        Alert.alert("User added");
-        navigation.navigate("LoginScreen");
-       }
-       else{
-        Alert.alert("Error");
-       }
-    }
+    const createAccount = () => {
+      if (password === verifyPassword) {
+          Alert.alert(
+              'Success', 
+              'Success', 
+              [{text: 'Okay', onPress: () => console.log('Alert Closed')}], 
+          );
+          navigation.navigate("LoginScreen");
+      } else {
+          Alert.alert(
+              'Error', 
+              'Error', 
+              [{text: 'Okay', onPress: () => console.log('Alert Closed')}], 
+          );
+      }
+  };
+  
     
     return(
         
