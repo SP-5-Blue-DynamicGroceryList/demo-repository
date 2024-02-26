@@ -6,6 +6,7 @@ import SignUp from "./Screens/SignUp";
 import DisplayTabs from "./Screens/HomeScreen"
 import TopBarNavigator from "./Navigators/TopBarNavigator";
 import BottomBarNavigator from "./Navigators/BottomBarNavigator"
+import ForgotPassword from "./Screens/ForgotPassword";
 
 // Testing changes
 const Stack = createNativeStackNavigator(); //similar to Stack data structure
@@ -19,6 +20,7 @@ export default function App() {
         <Stack.Screen name = "SignUp" component = {SignUp} />
         <Stack.Screen name = "HomeScreen" component = {DisplayTabs} />
         <Stack.Screen name = "Profile" component = {BottomBarNavigator} />
+        <Stack.Screen name = "ForgotPassword" component={ForgotPassword} />
       </Stack.Navigator>
     </NavigationContainer>
 

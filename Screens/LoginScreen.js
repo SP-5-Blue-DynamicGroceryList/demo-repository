@@ -11,6 +11,7 @@ export default function LoginScreen({navigation}) {
       <TextInput placeholder = 'Password' />
       <Button title = "Log in" onPress = {() => navigation.navigate("Profile")} /> 
       <Button title = "Sign up" onPress={() => navigation.navigate("SignUp")} />
+      <Button title = "Forgot Password" onPress={() => navigation.navigate("ForgotPassword")}></Button>
     </View>
   );
 }
