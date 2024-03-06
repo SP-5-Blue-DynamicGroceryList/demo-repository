@@ -46,7 +46,6 @@ export default function SnacksScreen() {
             <SafeAreaView />
             <FlatList
                 data={quantity}
-                extraData = {quantity}
                 renderItem={({ item, index }) => (
                     <View
                         style={{
