@@ -35,7 +35,7 @@ export default function MeatScreen() {
                 }
             }
             else {
-                return snack
+                return meat
             }
         });
         setQuantity(currentMeats);
