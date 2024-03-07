@@ -1,7 +1,6 @@
 import {React} from 'react'
-import {View, Text, StyleSheet, Button, TextInput, Alert} from "react-native";
+import {View, Text, StyleSheet, Button, TextInput, Alert, Modal} from "react-native";
 import { useState } from 'react';
-import { Modal, ScrollView } from 'react-native-web';
 
 export default function CheckList() {
     
@@ -35,8 +34,24 @@ export default function CheckList() {
     };
 
     return(
-         <View style = {styles.container}>
-            <Button title = "Add Item" onPress={() => setModalVisible(true)}></Button>
+        //  <View style = {styles.container}>
+        //     <Button title = "Add Item" onPress={() => setModalVisible(true)}></Button>
+        //     {renderItemButtons()}
+        //     <Modal
+        //         visible={modalVisible}
+        //         animationType="slide"
+        //         transparent={true}
+        //     >
+        //         <View style={styles.modalView}>
+        //             <TextInput placeholder="Enter username"/>
+        //             <TextInput placeholder = "Enter Quantity" />
+        //             <Button title="Add Item" onPress={generateButtons} />
+        //         </View>
+        //     </Modal>
+            
+        // </View>
+        <View style = {styles.container}>
+            <Button title = "Add Item" onPress= {() => setModalVisible(true)}></Button>
             {renderItemButtons()}
             <Modal
                 visible={modalVisible}
@@ -44,13 +59,13 @@ export default function CheckList() {
                 transparent={true}
             >
                 <View style={styles.modalView}>
-                    <TextInput placeholder="Enter username"/>
-                    <TextInput placeholder = "Enter Quantity" />
-                    <Button title="Add Item" onPress={generateButtons} />
+                  <TextInput style = {styles.moodalInput} placeholder="Enter item name:" placeholderTextColor= "#000"/>
+                  <TextInput style = {styles.moodalInput} placeholder = "Enter quantity" placeholderTextColor= "#000"/> 
+                  <Button title="Add Item" onPress={generateButtons} />
                 </View>
             </Modal>
             
-        </View>  
+        </View>   
     )
 }
 
@@ -63,6 +78,10 @@ const styles = StyleSheet.create({
   },
   button: {
     width: '33%',
+  },
+  moodalInput : {
+    color: "black",
+    
   },
 
   modalView: {

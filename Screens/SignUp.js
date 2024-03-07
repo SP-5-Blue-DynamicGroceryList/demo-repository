@@ -3,6 +3,8 @@ import {useState} from 'react';
 import { Dropdown } from 'react-native-element-dropdown';
 
 
+
+
 export default function SignUp( {navigation} ) {
      
     const[value, setValue] = useState("" | null);
@@ -15,7 +17,7 @@ export default function SignUp( {navigation} ) {
     {label : "What is your mother's name?", value : 4},
     {label : "What is your father's food?", value : 5},
     {label : 'What is your dream job?', value : 6},
-     ]
+    ]
   
   
     const[userName, setUsername] = useState("");
@@ -67,33 +69,43 @@ export default function SignUp( {navigation} ) {
             <TextInput placeholder="Select Password" onChangeText = {handlePassword} ></TextInput>
             <TextInput placeholder="Retype Password" onChangeText = {handleVerifyPassword} ></TextInput>
             <Dropdown
-              data={data}
-              maxHeight={300}
-              labelField="label"
-              valueField="value"
-              placeholder="Select item"
-              searchPlaceholder="Search..."
-              value={value}
-              onChange={item => {
-                setValue(item.value);
-                console.log(value);
-              }}>
-            </Dropdown>
+                style={styles.dropdown}
+                data={data}
+                search
+                maxHeight={300}
+                labelField="label"
+                valueField="value"
+                placeholder="Select item"
+                searchPlaceholder="Search..."
+                value={value}
+                onChange={item => {
+                  setValue(item.value);
+                }}
+              />
             <TextInput placeholder = "Enter Answer" onChangeText={handleAnswer}></TextInput>
             <Button onPress = {createAccount} title ="Add Account" />
         </View>
     )
 }
 
+// item => {setValue(item.value); console.log(value);}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
+    backgroundColor: 'white',
     justifyContent: 'center',
+    padding: 16,
   },
   button: {
     width: '33%',
   },
+  dropdown : {
+    margin: 16,
+    height: 50,
+    borderBottomColor: 'gray',
+    borderBottomWidth: 0.5,
+  }
+
 
 });
