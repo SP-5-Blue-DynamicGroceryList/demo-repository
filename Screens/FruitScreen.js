@@ -5,26 +5,47 @@ import { fruits } from '../Utils/Data';
 import { AntDesign } from '@expo/vector-icons';
 
 export default function FruitScreen() {
-    const [quantity, setQuantity] = useState(0)
+    const [quantity, setQuantity] = useState(fruits)
 
-    const handleSubtraction = () => {
-        if (quantity >= 1) {
-            setQuantity(quantity - 1);
-        }
-        else {
-            setQuantity(0);
-        }
+    const handleSubtraction = (id) => {
+        const currentFruits = quantity.map((fruit)=> {
+            if (fruit.id === id) {
+                return {
+                    name: fruit.name,
+                    id: fruit.id,
+                    img: fruit.img,
+                    qty: fruit.qty-1
+                }
+            }
+            else {
+                return fruit
+            }
+        });
+        setQuantity(currentFruits);
     }
 
-    const handleAddition = () => {
-        setQuantity(quantity + 1);
+    const handleAddition = (id) => {
+        const currentFruits = quantity.map((fruit)=> {
+            if (fruit.id === id) {
+                return {
+                    name: fruit.name,
+                    id: fruit.id,
+                    img: fruit.img,
+                    qty: fruit.qty+1
+                }
+            }
+            else {
+                return fruit
+            }
+        });
+        setQuantity(currentFruits);
     }
 
     return (
         <View style={{ paddingLeft: 20, paddingVertical: 10 }}>
             <SafeAreaView />
             <FlatList
-                data={fruits}
+                data={quantity}
                 renderItem={({ item, index }) => (
                     <View
                         style={{
@@ -50,9 +71,9 @@ export default function FruitScreen() {
                                 justifyContent: "space-around",
                                 flexDirection: "row",
                             }}>
-                            <AntDesign name="minuscircleo" size={24} color="black" backgroundColor="transparent" onPress={handleSubtraction} />
+                            <AntDesign name="minuscircleo" size={24} color="black" backgroundColor="transparent" onPress={()=>handleSubtraction(item.id)} />
                             <Text style={{fontSize: 20}}>{item.qty}</Text>
-                            <AntDesign name="pluscircleo" size={24} color="black" backgroundColor="transparent" onPress={handleAddition} />
+                            <AntDesign name="pluscircleo" size={24} color="black" backgroundColor="transparent" onPress={()=>handleAddition(item.id)} />
                         </View>
                         <Button title = "Add to List" />
                     </View>
