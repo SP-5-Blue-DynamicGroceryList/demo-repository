@@ -1,5 +1,5 @@
 import { React } from 'react'
-import { View, Text, StyleSheet, Button, TextInput, Alert, Image, FlatList, SafeAreaView } from "react-native";
+import { View, Text, StyleSheet, Button, Image, FlatList, SafeAreaView, TouchableOpacity } from "react-native";
 import { useState } from 'react';
 import { fruits } from '../Utils/Data';
 import { AntDesign } from '@expo/vector-icons';
@@ -8,13 +8,13 @@ export default function FruitScreen() {
     const [quantity, setQuantity] = useState(fruits)
 
     const handleSubtraction = (id) => {
-        const currentFruits = quantity.map((fruit)=> {
+        const currentFruits = quantity.map((fruit) => {
             if (fruit.id === id) {
                 return {
                     name: fruit.name,
                     id: fruit.id,
                     img: fruit.img,
-                    qty: fruit.qty-1
+                    qty: fruit.qty - 1
                 }
             }
             else {
@@ -25,13 +25,13 @@ export default function FruitScreen() {
     }
 
     const handleAddition = (id) => {
-        const currentFruits = quantity.map((fruit)=> {
+        const currentFruits = quantity.map((fruit) => {
             if (fruit.id === id) {
                 return {
                     name: fruit.name,
                     id: fruit.id,
                     img: fruit.img,
-                    qty: fruit.qty+1
+                    qty: fruit.qty + 1
                 }
             }
             else {
@@ -42,27 +42,18 @@ export default function FruitScreen() {
     }
 
     return (
-        <View style={{ paddingLeft: 20, paddingVertical: 10 }}>
+        <View style={styles.container}>
             <SafeAreaView />
             <FlatList
                 data={quantity}
                 renderItem={({ item, index }) => (
-                    <View
-                        style={{
-                            height: 300,
-                            borderColor: "#d3d3d3",
-                            borderWidth: 2,
-                            width: 350,
-                            marginVertical: 10,
-                            borderRadius: 15,
-                            justifyContent: "center"
-                        }}>
+                    <View style={styles.main}>
                         <Image
-                            style={{ height: 150, resizeMode: 'contain', alignSelf: "center" }}
+                            style={styles.image}
                             source={item.img}
                         />
-                        <View style={{ paddingVertical: 20}}>
-                            <Text style={{ fontSize: 16, fontWeight: 600, alignSelf: "center"}}>
+                        <View style={{ paddingVertical: 20 }}>
+                            <Text style={{ fontSize: 16, fontWeight: 600, alignSelf: "center" }}>
                                 {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
                             </Text>
                         </View>
@@ -71,14 +62,41 @@ export default function FruitScreen() {
                                 justifyContent: "space-around",
                                 flexDirection: "row",
                             }}>
-                            <AntDesign name="minuscircleo" size={24} color="black" backgroundColor="transparent" onPress={()=>handleSubtraction(item.id)} />
-                            <Text style={{fontSize: 20}}>{item.qty}</Text>
-                            <AntDesign name="pluscircleo" size={24} color="black" backgroundColor="transparent" onPress={()=>handleAddition(item.id)} />
+                            <TouchableOpacity onPress={() => handleSubtraction(item.id)}>
+                                <AntDesign name="minuscircleo" size={24} color="black" backgroundColor="transparent" />
+                            </TouchableOpacity>
+                            <Text style={{ fontSize: 20 }}>{item.qty}</Text>
+                            <TouchableOpacity onPress={() => handleAddition(item.id)}>
+                                <AntDesign name="pluscircleo" size={24} color="black" backgroundColor="transparent" />
+                            </TouchableOpacity>
                         </View>
-                        <Button title = "Add to List" />
+                        <Button title="Add to List" />
                     </View>
                 )}
             />
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        paddingLeft: 20,
+        paddingVertical: 10
+    },
+    main: {
+        height: 300,
+        borderColor: "#d3d3d3",
+        borderWidth: 2,
+        width: 350,
+        marginVertical: 10,
+        borderRadius: 15,
+        justifyContent: "center",
+        backgroundColor: 'white',
+    },
+    image: {
+        height: 150,
+        resizeMode: 'contain',
+        alignSelf: "center"
+    },
+
+});
