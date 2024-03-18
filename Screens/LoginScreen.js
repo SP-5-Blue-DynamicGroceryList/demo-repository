@@ -1,8 +1,38 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity, Image, ScrollView,Alert } from 'react-native';
+import { useState } from 'react';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import {FIREBASE_AUTH} from '../Firebase/FirebaseConfig.ts';
 
 export default function LoginScreen({ navigation }) {
+  const [userName, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const auth = FIREBASE_AUTH;
+  const signIn = async () => {
+    try {
+        const response = await signInWithEmailAndPassword(auth,userName,password);
+        console.log(response);
+        navigation.navigate("Profile");
+    }
+    catch (error) {
+      console.log(error);
+      Alert.alert(
+        'Error',
+        'Sign in failed',
+        [{ text: 'Okay', onPress: () => console.log('Alert Closed') }],
+      );
+    }
+  }
+  const handleUsername = (userName) => {
+    setUsername(userName);
+    console.log(userName);
+  }
+
+  const handlePassword = (password) => {
+    setPassword(password);
+    console.log(password);
+  }
   
   return (
     <KeyboardAwareScrollView style={styles.container} extraScrollHeight={70}>
@@ -16,10 +46,12 @@ export default function LoginScreen({ navigation }) {
           <TextInput
             style={styles.input}
             placeholder="Username"
+            onChangeText={handleUsername}
           />
           <TextInput
             style={styles.input}
             placeholder="Password"
+            onChangeText={handlePassword}
           />
         </View>
         <View>
@@ -28,7 +60,7 @@ export default function LoginScreen({ navigation }) {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.buttonContainer1}
-            onPress={() => navigation.navigate("Profile")}>
+            onPress={signIn}>
             <Text style={styles.buttonText1}>Login</Text>
           </TouchableOpacity>
           <View style={styles.text}>

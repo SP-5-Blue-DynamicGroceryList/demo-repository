@@ -2,6 +2,8 @@ import { View, Text, StyleSheet, Button, TextInput, Alert, Image, TouchableOpaci
 import { useState } from 'react';
 import { Dropdown } from 'react-native-element-dropdown';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import {FIREBASE_AUTH} from '../Firebase/FirebaseConfig.ts';
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function SignUp({ navigation }) {
 
@@ -20,7 +22,36 @@ export default function SignUp({ navigation }) {
   const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [verifyPassword, setVerifypassword] = useState("");
+  const auth = FIREBASE_AUTH;
 
+  const signUp = async () => {
+    try {
+      if (password === verifyPassword) {
+        Alert.alert(
+          'Success',
+          'Success',
+          [{ text: 'Okay', onPress: () => console.log('Alert Closed') }],
+        );
+        const response = await createUserWithEmailAndPassword(auth,userName,password);
+        console.log(response);
+        navigation.navigate("LoginScreen");
+      } else {
+        Alert.alert(
+          'Error',
+          'Error',
+          [{ text: 'Okay', onPress: () => console.log('Alert Closed') }],
+        );
+      }
+    }
+    catch (error) {
+      console.log(error);
+      Alert.alert(
+        'Error',
+        'Sign in failed',
+        [{ text: 'Okay', onPress: () => console.log('Alert Closed') }],
+      );
+    }
+  }
   const handleAnswer = (answer) => {
     setAnswer(answer);
     console.log(answer);
@@ -40,23 +71,6 @@ export default function SignUp({ navigation }) {
     setVerifypassword(verifyPassword);
     console.log(verifyPassword);
   }
-
-  const createAccount = () => {
-    if (password === verifyPassword) {
-      Alert.alert(
-        'Success',
-        'Success',
-        [{ text: 'Okay', onPress: () => console.log('Alert Closed') }],
-      );
-      navigation.navigate("LoginScreen");
-    } else {
-      Alert.alert(
-        'Error',
-        'Error',
-        [{ text: 'Okay', onPress: () => console.log('Alert Closed') }],
-      );
-    }
-  };
 
 
   return (
@@ -103,7 +117,7 @@ export default function SignUp({ navigation }) {
         />
         <TouchableOpacity
           style={styles.buttonContainer}
-          onPress={createAccount}>
+          onPress={signUp}>
           <Text style={styles.buttonText1}>Sign Up</Text>
         </TouchableOpacity>
         <View style={styles.text}>
