@@ -38,7 +38,7 @@ export default function SignUp({ navigation }) {
       } else {
         Alert.alert(
           'Error',
-          'Error',
+          'Sign up failed',
           [{ text: 'Okay', onPress: () => console.log('Alert Closed') }],
         );
       }
@@ -84,18 +84,21 @@ export default function SignUp({ navigation }) {
         <View>
           <TextInput
             style={styles.input}
-            placeholder="Username"
+            placeholder="Email Address"
             onChangeText={handleUsername}
+            autoCapitalize='none'
           />
           <TextInput
             style={styles.input}
             placeholder="Password"
             onChangeText={handlePassword}
+            autoCapitalize='none'
           />
           <TextInput
             style={styles.input}
             placeholder="Confirm Password"
             onChangeText={handleVerifyPassword}
+            autoCapitalize='none'
           />
         </View>
         <Dropdown
@@ -130,8 +133,6 @@ export default function SignUp({ navigation }) {
     </KeyboardAwareScrollView>
   )
 }
-
-// item => {setValue(item.value); console.log(value);}
 
 const styles = StyleSheet.create({
   container: {

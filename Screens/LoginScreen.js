@@ -45,13 +45,15 @@ export default function LoginScreen({ navigation }) {
         <View>
           <TextInput
             style={styles.input}
-            placeholder="Username"
+            placeholder="Email Address"
             onChangeText={handleUsername}
+            autoCapitalize='none'
           />
           <TextInput
             style={styles.input}
             placeholder="Password"
             onChangeText={handlePassword}
+            autoCapitalize='none'
           />
         </View>
         <View>
