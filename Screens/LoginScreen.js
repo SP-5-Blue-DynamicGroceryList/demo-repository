@@ -3,8 +3,8 @@ import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity, Image, Scr
 import { useState } from 'react';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import {FIREBASE_AUTH} from '../Firebase/FirebaseConfig.ts';
-
+import {FIREBASE_AUTH,FIRESTORE_DB} from '../Firebase/FirebaseConfig.ts';
+import {writeListData} from '../Firebase/FirebaseConfig.ts';
 export default function LoginScreen({ navigation }) {
   const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -14,6 +14,7 @@ export default function LoginScreen({ navigation }) {
         const response = await signInWithEmailAndPassword(auth,userName,password);
         console.log(response);
         navigation.navigate("Profile");
+        writeListData("apple","5");
     }
     catch (error) {
       console.log(error);
