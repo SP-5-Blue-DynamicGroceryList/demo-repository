@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import {getAuth} from "firebase/auth";
 import {getFirestore} from 'firebase/firestore';
-import {getDatabase,ref,set} from 'firebase/database';
+import {getDatabase,ref,set,push, onValue,child} from 'firebase/database';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -23,11 +23,10 @@ export const FIREBASE_AUTH = getAuth(FIREBASE_APP);
 export const FIRESTORE_DB = getFirestore(FIREBASE_APP);
 export function writeListData(itemName, itemQuantity) {
   const db = getDatabase();
-  const reference = ref(db,'items/'+itemName);
-  set(reference, {
+  const reference = ref(db,'items/');
+  const newRef = push(reference);
+  set(newRef, {
     name: itemName,
-    qty: itemQuantity
+    qty: itemQuantity,
   })
 }
-writeListData("banana","5");
-writeListData("banana","3");

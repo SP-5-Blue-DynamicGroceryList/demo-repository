@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, Button, TextInput, Alert, Modal, ScrollView, To
 import { useState } from 'react';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import {getDatabase,ref,set,push, onValue,remove,update} from 'firebase/database';
+import {writeListData} from '../Firebase/FirebaseConfig.ts';
 
 export default function CheckList() {
 
@@ -10,11 +12,29 @@ export default function CheckList() {
     const [modalVisible, setModalVisible] = useState(false);
     const [name, setName] = useState('');
     const [quantity, setQuantity] = useState(0);
+    const [currentDB, setDB] = useState([]);
+
+    const db = getDatabase();
+    const reference = ref(db,'items/');
+    const displayDatabase = () => {
+        onValue(reference, (snapshot)=> {
+            const temparray = [];
+            snapshot.forEach((nodeSnapshot) => {
+                const snapshotName = nodeSnapshot.val().name;
+                const snapshotQty = nodeSnapshot.val().qty;
+                const snapshotId = nodeSnapshot.key;
+                const newSnapshot = { id: Math.random().toString(), name: snapshotName, qty: parseInt(snapshotQty), uid: snapshotId };
+                temparray.push(newSnapshot)
+            }); 
+            setDB(temparray);
+        },{ 
+            onlyOnce: true    
+        });
+    }
 
     const generateButtons = (newName, newQuantity) => {
         setModalVisible(false);
-        const newItems = { id: Math.random().toString(), name: newName, qty: parseInt(newQuantity) };
-        setItems(currentItems => [...currentItems, newItems]);
+        writeListData(newName,newQuantity);
     }
     const handleSubtraction = (id) => {
         const currentItems = items.map((item) => {
@@ -47,27 +67,48 @@ export default function CheckList() {
         });
         setItems(currentItems);
     }
+    const handleAdditionDB = (id) => {
+        currentDB.map((item) => {
+            if (item.id === id) {
+                const newSnapshot = {name: item.name, qty: parseInt(item.qty)+1 };
+                const updates = {};
+                updates['items/'+item.uid] = newSnapshot;
+                update(ref(db),updates);
+            }
+        });
+    }
+    const handleSubtractionDB = (id) => {
+        currentDB.map((item) => {
+            if (item.id === id) {
+                const newSnapshot = {name: item.name, qty: parseInt(item.qty)-1 };
+                const updates = {};
+                updates['items/'+item.uid] = newSnapshot;
+                update(ref(db),updates);
+            }
+        });
+    }
 
-    const deleteItem = (id) => {
-        setItems(currentItems => currentItems.filter(items => items.id !== id));
+    const deleteItem = (uid) => {
+        const deletereference = ref(db,'items/'+uid);
+        remove(deletereference);
     };
 
     const renderItemButtons = () => {
-
-        return items.map((items, index) => (
+        displayDatabase();
+        return currentDB.map((items, index) => (
             <View key={items.id} style={styles.buttonGroup}>
                 <View>
                     <Text style={{ fontSize: 18, fontWeight: '600', textAlign: 'center' }}>{items.name}</Text>
                 </View>
-                <TouchableOpacity onPress={() => handleSubtraction(items.id)} >
-                    <AntDesign name="minuscircleo" size={22} color="black" backgroundColor="transparent" />
+                <TouchableOpacity onPress={() => handleSubtractionDB(items.id)} >
+                    <AntDesign name="minuscircleo" size={40} color="black" backgroundColor="transparent" />
                 </TouchableOpacity>
                 <Text style={{ fontSize: 18 }}>{items.qty}</Text>
-                <TouchableOpacity onPress={() => handleAddition(items.id)} >
-                    <AntDesign name="pluscircleo" size={22} color="black" backgroundColor="transparent" />
+                <TouchableOpacity onPress={() => handleAdditionDB(items.id)} >
+                    <AntDesign name="pluscircleo" size={40} color="black" backgroundColor="transparent" />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => deleteItem(items.id)}>
-                    <MaterialIcons name="delete" size={24} color="black" />
+                <TouchableOpacity onPress={() => deleteItem(items.uid)}>
+                    <MaterialIcons name="delete" size={40} color="black" />
                 </TouchableOpacity>
             </View>
         ));

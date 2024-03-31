@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, Button, Image, FlatList, SafeAreaView, Touchabl
 import { useState } from 'react';
 import { meats } from '../Utils/Data';
 import { AntDesign } from '@expo/vector-icons';
+import {writeListData} from '../Firebase/FirebaseConfig.ts';
+import {getDatabase,ref,set,push, onValue} from 'firebase/database';
 
 export default function MeatScreen() {
     const [quantity, setQuantity] = useState(meats)
@@ -40,6 +42,13 @@ export default function MeatScreen() {
         });
         setQuantity(currentMeats);
     }
+    const addToDB = (id) => {
+        quantity.map((meat)=> {
+            if (meat.id === id) {
+                writeListData(meat.name,meat.qty)
+            }
+        });
+    }
 
     return (
         <View style={styles.container}>
@@ -70,7 +79,9 @@ export default function MeatScreen() {
                                 <AntDesign name="pluscircleo" size={24} color="black" backgroundColor="transparent" />
                             </TouchableOpacity>
                         </View>
-                        <Button title="Add to List" />
+                        <TouchableOpacity onPress={() => addToDB(item.id)}>
+                                <AntDesign name="pluscircleo" size={24} color="black" backgroundColor="transparent" />
+                        </TouchableOpacity>
                     </View>
                 )}
             />

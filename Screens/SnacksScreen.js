@@ -3,9 +3,18 @@ import { View, Text, StyleSheet, Button, Image, FlatList, SafeAreaView, Touchabl
 import { useState } from 'react';
 import { snacks } from '../Utils/Data';
 import { AntDesign } from '@expo/vector-icons';
+import {writeListData} from '../Firebase/FirebaseConfig.ts';
 
 export default function SnacksScreen() {
     const [quantity, setQuantity] = useState(snacks)
+
+    const addToDB = (id) => {
+        quantity.map((meat)=> {
+            if (meat.id === id) {
+                writeListData(meat.name,meat.qty)
+            }
+        });
+    }
 
     const handleSubtraction = (id) => {
         const currentSnacks = quantity.map((snack) => {
@@ -70,7 +79,9 @@ export default function SnacksScreen() {
                                 <AntDesign name="pluscircleo" size={24} color="black" backgroundColor="transparent" />
                             </TouchableOpacity>
                         </View>
-                        <Button title="Add to List" />
+                        <TouchableOpacity onPress={() => addToDB(item.id)}>
+                                <AntDesign name="pluscircleo" size={24} color="black" backgroundColor="transparent" />
+                        </TouchableOpacity>
                     </View>
                 )}
             />

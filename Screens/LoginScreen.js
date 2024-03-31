@@ -14,7 +14,6 @@ export default function LoginScreen({ navigation }) {
         const response = await signInWithEmailAndPassword(auth,userName,password);
         console.log(response);
         navigation.navigate("Profile");
-        writeListData("apple","5");
     }
     catch (error) {
       console.log(error);

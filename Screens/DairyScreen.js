@@ -3,9 +3,19 @@ import { View, Text, StyleSheet, Button, Image, FlatList, SafeAreaView, Touchabl
 import { useState } from 'react';
 import { dairies } from '../Utils/Data';
 import { AntDesign } from '@expo/vector-icons';
+import {writeListData} from '../Firebase/FirebaseConfig.ts';
+import {getDatabase,ref,set,push, onValue} from 'firebase/database';
 
 export default function FruitScreen() {
     const [quantity, setQuantity] = useState(dairies)
+
+    const addToDB = (id) => {
+        quantity.map((meat)=> {
+            if (meat.id === id) {
+                writeListData(meat.name,meat.qty)
+            }
+        });
+    }
 
     const handleSubtraction = (id) => {
         const currentDairies = quantity.map((dairy) => {
@@ -70,7 +80,9 @@ export default function FruitScreen() {
                                 <AntDesign name="pluscircleo" size={24} color="black" backgroundColor="transparent" />
                             </TouchableOpacity>
                         </View>
-                        <Button title="Add to List" />
+                        <TouchableOpacity onPress={() => addToDB(item.id)}>
+                                <AntDesign name="pluscircleo" size={24} color="black" backgroundColor="transparent" />
+                        </TouchableOpacity>
                     </View>
                 )}
             />
