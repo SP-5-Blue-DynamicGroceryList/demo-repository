@@ -5,14 +5,19 @@ import { dairies } from '../Utils/Data';
 import { AntDesign } from '@expo/vector-icons';
 import {writeListData} from '../Firebase/FirebaseConfig.ts';
 import {getDatabase,ref,set,push, onValue} from 'firebase/database';
+import {getAuth} from "firebase/auth";
 
 export default function FruitScreen() {
     const [quantity, setQuantity] = useState(dairies)
 
     const addToDB = (id) => {
+        const user = getAuth().currentUser;
+        const userEmail = user.email;
+        const userNameSplit = userEmail.split("@");
+        const userName = userNameSplit[0];
         quantity.map((meat)=> {
             if (meat.id === id) {
-                writeListData(meat.name,meat.qty)
+                writeListData(meat.name,meat.qty,userName)
             }
         });
     }

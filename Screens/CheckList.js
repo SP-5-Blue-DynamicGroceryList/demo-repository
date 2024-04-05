@@ -5,6 +5,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import {getDatabase,ref,set,push, onValue,remove,update} from 'firebase/database';
 import {writeListData} from '../Firebase/FirebaseConfig.ts';
+import {getAuth} from "firebase/auth";
 
 export default function CheckList() {
 
@@ -14,8 +15,13 @@ export default function CheckList() {
     const [quantity, setQuantity] = useState(0);
     const [currentDB, setDB] = useState([]);
 
+    const user = getAuth().currentUser;
+    const userEmail = user.email;
+    const userNameSplit = userEmail.split("@");
+    const userName = userNameSplit[0];
+
     const db = getDatabase();
-    const reference = ref(db,'items/');
+    const reference = ref(db,userName+'/');
     const displayDatabase = () => {
         onValue(reference, (snapshot)=> {
             const temparray = [];
@@ -117,6 +123,7 @@ export default function CheckList() {
     return (
         <ScrollView contentContainerStyle={styles.contentContainer}>
             <View style={styles.container}>
+            <Text style={{ color: '#3d85c6', fontSize: 50 }}>{userName}'s list</Text>
                 <TouchableOpacity 
                     style={styles.buttonAdd} 
                     onPress={() => setModalVisible(true)}

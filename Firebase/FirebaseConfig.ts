@@ -21,9 +21,9 @@ const firebaseConfig = {
 export const FIREBASE_APP = initializeApp(firebaseConfig);
 export const FIREBASE_AUTH = getAuth(FIREBASE_APP);
 export const FIRESTORE_DB = getFirestore(FIREBASE_APP);
-export function writeListData(itemName, itemQuantity) {
+export function writeListData(itemName, itemQuantity,userEmail) {
   const db = getDatabase();
-  const reference = ref(db,'items/');
+  const reference = ref(db,userEmail+'/');
   const newRef = push(reference);
   set(newRef, {
     name: itemName,

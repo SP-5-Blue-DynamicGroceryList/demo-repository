@@ -4,14 +4,19 @@ import { useState } from 'react';
 import { vegetables } from '../Utils/Data';
 import { AntDesign } from '@expo/vector-icons';
 import {writeListData} from '../Firebase/FirebaseConfig.ts';
+import {getAuth} from "firebase/auth";
 
 export default function VegetableScreen() {
     const [quantity, setQuantity] = useState(vegetables)
 
     const addToDB = (id) => {
+        const user = getAuth().currentUser;
+        const userEmail = user.email;
+        const userNameSplit = userEmail.split("@");
+        const userName = userNameSplit[0];
         quantity.map((meat)=> {
             if (meat.id === id) {
-                writeListData(meat.name,meat.qty)
+                writeListData(meat.name,meat.qty,userName)
             }
         });
     }
