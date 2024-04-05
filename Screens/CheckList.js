@@ -78,7 +78,7 @@ export default function CheckList() {
             if (item.id === id) {
                 const newSnapshot = {name: item.name, qty: parseInt(item.qty)+1 };
                 const updates = {};
-                updates['items/'+item.uid] = newSnapshot;
+                updates[userName+'/'+item.uid] = newSnapshot;
                 update(ref(db),updates);
             }
         });
@@ -88,14 +88,14 @@ export default function CheckList() {
             if (item.id === id) {
                 const newSnapshot = {name: item.name, qty: parseInt(item.qty)-1 };
                 const updates = {};
-                updates['items/'+item.uid] = newSnapshot;
+                updates[userName+'/'+item.uid] = newSnapshot;
                 update(ref(db),updates);
             }
         });
     }
 
     const deleteItem = (uid) => {
-        const deletereference = ref(db,'items/'+uid);
+        const deletereference = ref(db,userName+'/'+uid);
         remove(deletereference);
     };
 
