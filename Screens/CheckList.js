@@ -40,7 +40,7 @@ export default function CheckList() {
 
     const generateButtons = (newName, newQuantity) => {
         setModalVisible(false);
-        writeListData(newName,newQuantity);
+        writeListData(newName,newQuantity,userName);
     }
     const handleSubtraction = (id) => {
         const currentItems = items.map((item) => {
