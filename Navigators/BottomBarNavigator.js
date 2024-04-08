@@ -1,34 +1,54 @@
 import React from 'react'
-import { StyleSheet, Text, View, Button, TextInput, Modal } from 'react-native';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import { useState } from 'react'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
 import Profile from '../Screens/Profile'
 import AccountInfo from '../Screens/AccountInfo'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-const Tab = createMaterialBottomTabNavigator();
+const homeName = 'Home';
+const accountName = 'Account';
 
+const Tab = createBottomTabNavigator();
 
 export default function BottomNavigation() {
 
     return (
         <Tab.Navigator
-            initialRouteName="ProfileInfo"
+            initialRouteName='homeName'
+            screenOptions={({ route }) => ({
+                tabBarIcon: ({ focused, color, size }) => {
+                    let barIcon;
+                    let rn = route.name;
+
+                    if (rn === homeName) {
+                        barIcon = focused ? 'home' : 'home-outline'
+                    }
+                    else if (rn === accountName) {
+                        barIcon = focused ? 'account' : 'account-outline'
+                    }
+
+                    return <MaterialCommunityIcons name={barIcon} size={size} color={color} />
+                },
+            })}
             tabBarOptions={{
-                activeTintColor: "#E91E63",
-                labelStyle: { fontSize: 12 },
-                style: { backgroundColor: 'white' }
+                activeTintColor: '#3d85c6',
+                inactiveTintColor: 'grey',
+                labelStyle: { fontSize: 10 },
+                style: { padding: 10, height: 70 },
             }}
+
         >
+
             <Tab.Screen
-                name="Home"
-                component={Profile}
-                options={{ topBarLabel: 'Profile' }}
-            />
-            <Tab.Screen 
-                name="Account Info" 
-                component={AccountInfo} 
-                options={{ topBarLabel: 'AccountInfo' }} 
-            />
+                options={{ headerShown: false }}
+                name={homeName}
+                component={Profile} />
+            <Tab.Screen
+                options={{ headerShown: false }}
+                name={accountName}
+                component={AccountInfo} />
+
         </Tab.Navigator>
+
     )
 }

@@ -84,9 +84,7 @@ export default function SnacksScreen() {
                                 <AntDesign name="pluscircleo" size={24} color="black" backgroundColor="transparent" />
                             </TouchableOpacity>
                         </View>
-                        <TouchableOpacity onPress={() => addToDB(item.id)}>
-                                <AntDesign name="pluscircleo" size={24} color="black" backgroundColor="transparent" />
-                        </TouchableOpacity>
+                        <Button title='Add to List' onPress={() => addToDB(item.id)}/>
                     </View>
                 )}
             />

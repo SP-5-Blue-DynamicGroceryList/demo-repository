@@ -2,25 +2,32 @@ import { View, Text, StyleSheet, Button, TextInput, Alert, Image, TouchableOpaci
 import { useState } from 'react';
 import { Dropdown } from 'react-native-element-dropdown';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import {FIREBASE_AUTH} from '../Firebase/FirebaseConfig.ts';
+import { FIREBASE_AUTH } from '../Firebase/FirebaseConfig.ts';
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function SignUp({ navigation }) {
 
-  const [value, setValue] = useState("" | null);
-  const [answer, setAnswer] = useState("");
+  // const [value, setValue] = useState("" | null);
+  // const [answer, setAnswer] = useState("");
 
-  const data = [
-    { label: 'What city were you born in?', value: 1 },
-    { label: 'What is your oldest sibling\'s middle name?', value: 2 },
-    { label: 'What was the first concert you attended?', value: 3 },
-    { label: 'What is your mother\'s maiden name?', value: 4 },
-    { label: 'What was the make and model of your first car?', value: 5 },
-    { label: 'What is your dream job?', value: 6 },
-  ]
-  
+  // const data = [
+  //   { label: 'What city were you born in?', value: 1 },
+  //   { label: 'What is your oldest sibling\'s middle name?', value: 2 },
+  //   { label: 'What was the first concert you attended?', value: 3 },
+  //   { label: 'What is your mother\'s maiden name?', value: 4 },
+  //   { label: 'What was the make and model of your first car?', value: 5 },
+  //   { label: 'What is your dream job?', value: 6 },
+  // ]
+
   const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const [showPassword, setShowPassword] = useState(false);
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   const [verifyPassword, setVerifypassword] = useState("");
   const auth = FIREBASE_AUTH;
 
@@ -32,7 +39,7 @@ export default function SignUp({ navigation }) {
           'Success',
           [{ text: 'Okay', onPress: () => console.log('Alert Closed') }],
         );
-        const response = await createUserWithEmailAndPassword(auth,userName,password);
+        const response = await createUserWithEmailAndPassword(auth, userName, password);
         console.log(response);
         navigation.navigate("LoginScreen");
       } else {
@@ -52,10 +59,10 @@ export default function SignUp({ navigation }) {
       );
     }
   }
-  const handleAnswer = (answer) => {
-    setAnswer(answer);
-    console.log(answer);
-  }
+  // const handleAnswer = (answer) => {
+  //   setAnswer(answer);
+  //   console.log(answer);
+  // }
 
   const handleUsername = (userName) => {
     setUsername(userName);
@@ -84,24 +91,58 @@ export default function SignUp({ navigation }) {
         <View>
           <TextInput
             style={styles.input}
+            placeholder="First Name"
+          // onChangeText={handleUsername}
+          // autoCapitalize='none'
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Last Name"
+          // onChangeText={handleUsername}
+          // autoCapitalize='none'
+          />
+          <TextInput
+            style={styles.input}
             placeholder="Email Address"
             onChangeText={handleUsername}
             autoCapitalize='none'
           />
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            onChangeText={handlePassword}
-            autoCapitalize='none'
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Confirm Password"
-            onChangeText={handleVerifyPassword}
-            autoCapitalize='none'
-          />
+          <View style={styles.parent}>
+            <TextInput
+              secureTextEntry={!showPassword}
+              value={password}
+              style={styles.input}
+              placeholder="Password"
+              onChangeText={handlePassword}
+              autoCapitalize='none'
+            />
+            <MaterialCommunityIcons
+              name={showPassword ? 'eye' : 'eye-off'}
+              size={24}
+              color="#aaa"
+              style={styles.icon}
+              onPress={toggleShowPassword}
+            />
+          </View>
+          <View style={styles.parent}>
+            <TextInput
+              secureTextEntry={!showPassword}
+              value={password}
+              style={styles.input}
+              placeholder="Confirm Password"
+              onChangeText={handleVerifyPassword}
+              autoCapitalize='none'
+            />
+            <MaterialCommunityIcons
+              name={showPassword ? 'eye' : 'eye-off'}
+              size={24}
+              color="#aaa"
+              style={styles.icon}
+              onPress={toggleShowPassword}
+            />
+          </View>
         </View>
-        <Dropdown
+        {/* <Dropdown
           style={styles.dropdown}
           data={data}
           maxHeight={300}
@@ -117,7 +158,7 @@ export default function SignUp({ navigation }) {
           style={styles.input}
           placeholder="Answer"
           onChangeText={handleAnswer}
-        />
+        /> */}
         <TouchableOpacity
           style={styles.buttonContainer}
           onPress={signUp}>
@@ -145,11 +186,15 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     alignSelf: 'center',
     margin: 15,
+    marginTop: 70,
   },
   header: {
     fontSize: 28,
     paddingVertical: 5,
     alignSelf: 'center',
+  },
+  parent: {
+    justifyContent: 'center',
   },
   input: {
     backgroundColor: '#eeeeee',
@@ -159,6 +204,11 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     padding: 10,
     justifyContent: 'center',
+    flex: 1,
+  },
+  icon: {
+    position: 'absolute',
+    right: 18,
   },
   button: {
     width: '33%',

@@ -3,9 +3,9 @@ import { View, Text, StyleSheet, Button, TextInput, Alert, Modal, ScrollView, To
 import { useState } from 'react';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
-import {getDatabase,ref,set,push, onValue,remove,update} from 'firebase/database';
-import {writeListData} from '../Firebase/FirebaseConfig.ts';
-import {getAuth} from "firebase/auth";
+import { getDatabase, ref, set, push, onValue, remove, update } from 'firebase/database';
+import { writeListData } from '../Firebase/FirebaseConfig.ts';
+import { getAuth } from "firebase/auth";
 
 export default function CheckList() {
 
@@ -21,9 +21,9 @@ export default function CheckList() {
     const userName = userNameSplit[0];
 
     const db = getDatabase();
-    const reference = ref(db,userName+'/');
+    const reference = ref(db, userName + '/');
     const displayDatabase = () => {
-        onValue(reference, (snapshot)=> {
+        onValue(reference, (snapshot) => {
             const temparray = [];
             snapshot.forEach((nodeSnapshot) => {
                 const snapshotName = nodeSnapshot.val().name;
@@ -31,16 +31,16 @@ export default function CheckList() {
                 const snapshotId = nodeSnapshot.key;
                 const newSnapshot = { id: Math.random().toString(), name: snapshotName, qty: parseInt(snapshotQty), uid: snapshotId };
                 temparray.push(newSnapshot)
-            }); 
+            });
             setDB(temparray);
-        },{ 
-            onlyOnce: true    
+        }, {
+            onlyOnce: true
         });
     }
 
     const generateButtons = (newName, newQuantity) => {
         setModalVisible(false);
-        writeListData(newName,newQuantity,userName);
+        writeListData(newName, newQuantity, userName);
     }
     const handleSubtraction = (id) => {
         const currentItems = items.map((item) => {
@@ -76,26 +76,26 @@ export default function CheckList() {
     const handleAdditionDB = (id) => {
         currentDB.map((item) => {
             if (item.id === id) {
-                const newSnapshot = {name: item.name, qty: parseInt(item.qty)+1 };
+                const newSnapshot = { name: item.name, qty: parseInt(item.qty) + 1 };
                 const updates = {};
-                updates[userName+'/'+item.uid] = newSnapshot;
-                update(ref(db),updates);
+                updates[userName + '/' + item.uid] = newSnapshot;
+                update(ref(db), updates);
             }
         });
     }
     const handleSubtractionDB = (id) => {
         currentDB.map((item) => {
             if (item.id === id) {
-                const newSnapshot = {name: item.name, qty: parseInt(item.qty)-1 };
+                const newSnapshot = { name: item.name, qty: parseInt(item.qty) - 1 };
                 const updates = {};
-                updates[userName+'/'+item.uid] = newSnapshot;
-                update(ref(db),updates);
+                updates[userName + '/' + item.uid] = newSnapshot;
+                update(ref(db), updates);
             }
         });
     }
 
     const deleteItem = (uid) => {
-        const deletereference = ref(db,userName+'/'+uid);
+        const deletereference = ref(db, userName + '/' + uid);
         remove(deletereference);
     };
 
@@ -107,14 +107,14 @@ export default function CheckList() {
                     <Text style={{ fontSize: 18, fontWeight: '600', textAlign: 'center' }}>{items.name}</Text>
                 </View>
                 <TouchableOpacity onPress={() => handleSubtractionDB(items.id)} >
-                    <AntDesign name="minuscircleo" size={40} color="black" backgroundColor="transparent" />
+                    <AntDesign name="minuscircleo" size={24} color="black" backgroundColor="transparent" />
                 </TouchableOpacity>
                 <Text style={{ fontSize: 18 }}>{items.qty}</Text>
                 <TouchableOpacity onPress={() => handleAdditionDB(items.id)} >
-                    <AntDesign name="pluscircleo" size={40} color="black" backgroundColor="transparent" />
+                    <AntDesign name="pluscircleo" size={24} color="black" backgroundColor="transparent" />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => deleteItem(items.uid)}>
-                    <MaterialIcons name="delete" size={40} color="black" />
+                    <MaterialIcons name="delete" size={24} color="black" />
                 </TouchableOpacity>
             </View>
         ));
@@ -123,9 +123,9 @@ export default function CheckList() {
     return (
         <ScrollView contentContainerStyle={styles.contentContainer}>
             <View style={styles.container}>
-            <Text style={{ color: '#3d85c6', fontSize: 50 }}>{userName}'s list</Text>
-                <TouchableOpacity 
-                    style={styles.buttonAdd} 
+                <Text style={styles.header}>{userName}'s list</Text>
+                <TouchableOpacity
+                    style={styles.buttonAdd}
                     onPress={() => setModalVisible(true)}
                 >
                     <MaterialIcons name="add-circle" size={50} color="#3d85c6" />
@@ -151,7 +151,7 @@ export default function CheckList() {
                             >
                                 <AntDesign name="close" size={24} color="black" />
                             </TouchableOpacity>
-                            
+
                             <View style={styles.box}>
                                 <Text style={styles.text}>Enter item name:</Text>
                                 <TextInput
@@ -186,6 +186,12 @@ const styles = StyleSheet.create({
         alignItems: 'row',
         justifyContent: 'row',
         paddingVertical: 10,
+    },
+    header: {
+        color: '#3d85c6',
+        fontSize: 24,
+        padding: 10,
+        left: 15,
     },
     close: {
         alignSelf: 'flex-end',
