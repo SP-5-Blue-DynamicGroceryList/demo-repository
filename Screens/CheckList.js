@@ -6,8 +6,13 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { getDatabase, ref, set, push, onValue, remove, update } from 'firebase/database';
 import { writeListData } from '../Firebase/FirebaseConfig.ts';
 import { getAuth } from "firebase/auth";
+import { users } from './Profile.js';
 
 export default function CheckList() {
+
+
+    const listToView = users[users.length-1];
+    
 
     const [items, setItems] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
@@ -21,7 +26,7 @@ export default function CheckList() {
     const userName = userNameSplit[0];
 
     const db = getDatabase();
-    const reference = ref(db, userName + '/');
+    const reference = ref(db, listToView + '/');
     const displayDatabase = () => {
         onValue(reference, (snapshot) => {
             const temparray = [];
@@ -40,7 +45,7 @@ export default function CheckList() {
 
     const generateButtons = (newName, newQuantity) => {
         setModalVisible(false);
-        writeListData(newName, newQuantity, userName);
+        writeListData(newName, newQuantity, listToView);
     }
     const handleSubtraction = (id) => {
         const currentItems = items.map((item) => {
@@ -78,7 +83,7 @@ export default function CheckList() {
             if (item.id === id) {
                 const newSnapshot = { name: item.name, qty: parseInt(item.qty) + 1 };
                 const updates = {};
-                updates[userName + '/' + item.uid] = newSnapshot;
+                updates[listToView + '/' + item.uid] = newSnapshot;
                 update(ref(db), updates);
             }
         });
@@ -88,14 +93,14 @@ export default function CheckList() {
             if (item.id === id) {
                 const newSnapshot = { name: item.name, qty: parseInt(item.qty) - 1 };
                 const updates = {};
-                updates[userName + '/' + item.uid] = newSnapshot;
+                updates[listToView + '/' + item.uid] = newSnapshot;
                 update(ref(db), updates);
             }
         });
     }
 
     const deleteItem = (uid) => {
-        const deletereference = ref(db, userName + '/' + uid);
+        const deletereference = ref(db, listToView + '/' + uid);
         remove(deletereference);
     };
 
@@ -123,7 +128,7 @@ export default function CheckList() {
     return (
         <ScrollView contentContainerStyle={styles.contentContainer}>
             <View style={styles.container}>
-                <Text style={styles.header}>{userName}'s list</Text>
+                <Text style={styles.header}>{listToView}'s list</Text>
                 <TouchableOpacity
                     style={styles.buttonAdd}
                     onPress={() => setModalVisible(true)}
@@ -174,6 +179,7 @@ export default function CheckList() {
         </ScrollView>
     )
 }
+
 
 const styles = StyleSheet.create({
     contentContainer: {

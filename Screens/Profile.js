@@ -7,10 +7,25 @@ import { TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
+import { getAuth } from "firebase/auth";
 
 export default function Profile({ navigation }) {
+    const user = getAuth().currentUser;
+    const userEmail = user.email;
+    const userNameSplit = userEmail.split("@");
+    const userName = userNameSplit[0];
+
+    const [name, setName] = useState('');
+
+    const viewList = (name) => {
+        const userNameSplit = name.split("@");
+        const userName = userNameSplit[0];
+        users.push(userName);
+    };
+
     const [list, setList] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
+    const [modalVisible2, setModalVisible2] = useState(false);
 
     const handleGenerate = () => {
         const newList = { id: Math.random().toString() };
@@ -28,7 +43,9 @@ export default function Profile({ navigation }) {
                     <Text>List #{index + 1}</Text>
                 </View>
                 <View>
-                    <Button title="Go to list" onPress={() => navigation.navigate("HomeScreen")}></Button>
+                    <Button title="View your list" onPress={() => {
+                        users.push(userName);
+                    navigation.navigate("HomeScreen");}}></Button>
                 </View>
                 <TouchableOpacity onPress={() => setModalVisible(true)}>
                     <Ionicons name="person-add-sharp" size={24} color="black" />
@@ -48,6 +65,9 @@ export default function Profile({ navigation }) {
                     onPress={handleGenerate}>
                     <Text style={styles.buttonText}>Generate List</Text>
                 </TouchableOpacity>
+                <View>
+                    <Button title="View someone else's list" onPress={() => setModalVisible2(true)}></Button>
+                </View>
                 {renderListButtons()}
                 <Modal
                     visible={modalVisible}
@@ -74,10 +94,46 @@ export default function Profile({ navigation }) {
                         </View>
                     </View>
                 </Modal>
+                <Modal
+                    visible={modalVisible2}
+                    animationType="slide"
+                    transparent={true}
+                >
+                    <View
+                        style={{
+                            flex: 1,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <View style={styles.modalView}>
+                            <TouchableOpacity
+                                style={styles.close}
+                                onPress={() => setModalVisible2(false)}
+                            >
+                                <AntDesign name="close" size={24} color="black" />
+                            </TouchableOpacity>
+
+                            <View style={styles.box}>
+                                <Text style={styles.text}>Enter the full email address of the person's list you want to view</Text>
+                                <TextInput
+                                    style={styles.input1}
+                                    onChangeText={(name) => setName(name)}
+                                    placeholderTextColor="#000" />
+                            </View>
+                            <Button title="Confirm" onPress={() => {
+                                viewList(name);
+                                setModalVisible2(false);
+                                navigation.navigate("HomeScreen");}
+                            } />
+                        </View>
+                    </View>
+                </Modal>
             </View>
         </ScrollView>
     )
 }
+export const users = []
 const styles = StyleSheet.create({
     contentContainer: {
         flex: 1,

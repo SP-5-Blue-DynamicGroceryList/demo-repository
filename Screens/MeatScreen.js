@@ -6,7 +6,9 @@ import { AntDesign } from '@expo/vector-icons';
 import { writeListData } from '../Firebase/FirebaseConfig.ts';
 import { getDatabase, ref, set, push, onValue } from 'firebase/database';
 import { getAuth } from "firebase/auth";
+import { users } from './Profile.js';
 export default function MeatScreen() {
+    const listToView = users[users.length-1];
     const [quantity, setQuantity] = useState(meats)
 
     const handleSubtraction = (id) => {
@@ -49,7 +51,7 @@ export default function MeatScreen() {
         const userName = userNameSplit[0];
         quantity.map((meat) => {
             if (meat.id === id) {
-                writeListData(meat.name, meat.qty, userName)
+                writeListData(meat.name, meat.qty, listToView)
             }
         });
     }

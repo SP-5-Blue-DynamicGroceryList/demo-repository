@@ -6,8 +6,10 @@ import { AntDesign } from '@expo/vector-icons';
 import { writeListData } from '../Firebase/FirebaseConfig.ts';
 import { getDatabase, ref, set, push, onValue } from 'firebase/database';
 import { getAuth } from "firebase/auth";
+import { users } from './Profile.js';
 
 export default function FruitScreen() {
+    const listToView = users[users.length-1];
     const [quantity, setQuantity] = useState(dairies)
 
     const addToDB = (id) => {
@@ -17,7 +19,7 @@ export default function FruitScreen() {
         const userName = userNameSplit[0];
         quantity.map((meat) => {
             if (meat.id === id) {
-                writeListData(meat.name, meat.qty, userName)
+                writeListData(meat.name, meat.qty, listToView)
             }
         });
     }
