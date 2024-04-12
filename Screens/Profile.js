@@ -115,11 +115,14 @@ export default function Profile({ navigation }) {
                             </TouchableOpacity>
 
                             <View style={styles.box}>
-                                <Text style={styles.text}>Enter the full email address of the person's list you want to view</Text>
+                                <View style={styles.modalTextBox}>
+                                    <Text style={styles.modalText}>Enter the full email address of the person's list you want to view:</Text>
+                                </View>
                                 <TextInput
-                                    style={styles.input1}
+                                    style={styles.input}
                                     onChangeText={(name) => setName(name)}
-                                    placeholderTextColor="#000" />
+                                    placeholderTextColor="#000"
+                                    autoCapitalize='none' />
                             </View>
                             <Button title="Confirm" onPress={() => {
                                 viewList(name);
@@ -176,8 +179,8 @@ const styles = StyleSheet.create({
         borderRadius: 15,
     },
     modalView: {
-        width: 300,
-        height: 170,
+        width: 370,
+        height: 240,
         backgroundColor: 'white',
         borderRadius: 20,
         justifyContent: 'center',
@@ -195,7 +198,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         borderWidth: 1,
         borderColor: '#eeeeee',
-        width: 250,
+        width: 350,
         height: 50,
         margin: 8,
         padding: 10,
@@ -203,8 +206,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     close: {
-        alignSelf: 'flex-end',
         margin: 8,
+        position: 'absolute',
+        top: 5,
+        right: 5,
     },
+    modalTextBox: {
+        padding: 12,
+        width: 350,
+        alignSelf: 'center',
+    },
+    modalText: {
+        textAlign: 'center',
+    }
 
 });
