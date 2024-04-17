@@ -30,3 +30,17 @@ export function writeListData(itemName, itemQuantity,userEmail) {
     qty: itemQuantity,
   })
 }
+export function writePersonalData(firstname, lastname, userEmail) {
+  const db = getDatabase();
+  set(ref(db,userEmail+'user'+'/'), {
+    firstName: firstname,
+    lastName: lastname,
+  })
+}
+export function writePasscodeData(passcode, userEmail) {
+  const db = getDatabase();
+  set(ref(db,userEmail+'pass'+'/'), {
+    passCode:passcode
+  })
+}
+

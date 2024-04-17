@@ -3,10 +3,30 @@ import { View, Text, StyleSheet, Button, TextInput, Alert, Image, TouchableOpaci
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { useState } from 'react'
 import { getAuth } from "firebase/auth";
+import { getDatabase, ref, child, get } from "firebase/database";
 
 export default function AccountInfo({ navigation }) {
     const user = getAuth().currentUser;
     const userEmail = user.email;
+    const userNameSplit = userEmail.split("@");
+    const userAddress = userNameSplit[0];
+
+    const [firstName, setFName] = useState("");
+    const [lastName, setLName] = useState("");
+
+    const db = getDatabase();
+    const reference = ref(db,userAddress+'user'+'/');
+    get(reference).then((snapshot) => {
+        if (snapshot.exists()) {
+            setFName(snapshot.val().firstName);
+            setLName(snapshot.val().lastName);
+        } else {
+            console.log("No data available");
+  }
+        }).catch((error) => {
+            console.error(error);
+    });
+
     return (
         <View style={styles.container}>
             <Image
@@ -15,6 +35,8 @@ export default function AccountInfo({ navigation }) {
             />
             <View style={styles.textContainer}>
                 <Text style={styles.text}>Email Account: {userEmail}</Text>
+                <Text style={styles.text}>First Name: {firstName}</Text>
+                <Text style={styles.text}>Last Name: {lastName}</Text>
             </View>
             <View>
                 <TouchableOpacity

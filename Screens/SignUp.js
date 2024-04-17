@@ -5,6 +5,10 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { FIREBASE_AUTH } from '../Firebase/FirebaseConfig.ts';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { getAuth } from "firebase/auth";
+import { writePersonalData } from '../Firebase/FirebaseConfig.ts';
+import { writePasscodeData } from '../Firebase/FirebaseConfig.ts';
+
 
 export default function SignUp({ navigation }) {
 
@@ -22,6 +26,9 @@ export default function SignUp({ navigation }) {
 
   const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [firstName, setFName] = useState("");
+  const [lastName, setLName] = useState("");
+  const [pinCode, setPCode] = useState("");
 
   const [showPassword, setShowPassword] = useState(false);
   const toggleShowPassword = () => {
@@ -31,6 +38,8 @@ export default function SignUp({ navigation }) {
   const [verifyPassword, setVerifypassword] = useState("");
   const auth = FIREBASE_AUTH;
 
+
+
   const signUp = async () => {
     try {
       if (password === verifyPassword) {
@@ -39,8 +48,12 @@ export default function SignUp({ navigation }) {
           'Success',
           [{ text: 'Okay', onPress: () => console.log('Alert Closed') }],
         );
+        const userNameSplit = userName.split("@");
+        const userAddress = userNameSplit[0];
         const response = await createUserWithEmailAndPassword(auth, userName, password);
         console.log(response);
+        writePersonalData(firstName,lastName,userAddress);
+        writePasscodeData(pinCode,userAddress)
         navigation.navigate("LoginScreen");
       } else {
         Alert.alert(
@@ -74,6 +87,21 @@ export default function SignUp({ navigation }) {
     console.log(password);
   }
 
+  const handleFName = (fname) => {
+    setFName(fname);
+    console.log(fname);
+  }
+
+  const handleLName = (lname) => {
+    setLName(lname);
+    console.log(lname);
+  }
+
+  const handlePCode = (pcode) => {
+    setPCode(pcode);
+    console.log(pcode);
+  }
+
   const handleVerifyPassword = (verifyPassword) => {
     setVerifypassword(verifyPassword);
     console.log(verifyPassword);
@@ -89,17 +117,23 @@ export default function SignUp({ navigation }) {
         />
         <Text style={styles.header}>Sign Up</Text>
         <View>
+        <TextInput
+            style={styles.input}
+            placeholder="Set up your code to allow others to access your grocery list"
+          onChangeText={handlePCode}
+          autoCapitalize='none'
+          />
           <TextInput
             style={styles.input}
             placeholder="First Name"
-          // onChangeText={handleUsername}
-          // autoCapitalize='none'
+          onChangeText={handleFName}
+          autoCapitalize='none'
           />
           <TextInput
             style={styles.input}
             placeholder="Last Name"
-          // onChangeText={handleUsername}
-          // autoCapitalize='none'
+          onChangeText={handleLName}
+          autoCapitalize='none'
           />
           <TextInput
             style={styles.input}
@@ -127,7 +161,7 @@ export default function SignUp({ navigation }) {
           <View style={styles.parent}>
             <TextInput
               secureTextEntry={!showPassword}
-              value={password}
+              value={verifyPassword}
               style={styles.input}
               placeholder="Confirm Password"
               onChangeText={handleVerifyPassword}

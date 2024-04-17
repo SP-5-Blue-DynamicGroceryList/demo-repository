@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View, Button, TextInput, Modal } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, Modal,Alert } from 'react-native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { useState } from 'react'
 import { ScrollView } from 'react-native';
@@ -8,6 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { getAuth } from "firebase/auth";
+import { getDatabase, ref, child, get } from "firebase/database";
 
 export default function Profile({ navigation }) {
     const user = getAuth().currentUser;
@@ -16,6 +17,8 @@ export default function Profile({ navigation }) {
     const userName = userNameSplit[0];
 
     const [name, setName] = useState('');
+    const [code, setCode] = useState('');
+    const [code2, setCode2] = useState('');
 
     const viewList = (name) => {
         const userNameSplit = name.split("@");
@@ -124,10 +127,45 @@ export default function Profile({ navigation }) {
                                     placeholderTextColor="#000"
                                     autoCapitalize='none' />
                             </View>
+                            <View style={styles.box}>
+                                <View style={styles.modalTextBox}>
+                                    <Text style={styles.modalText}>Enter their code:</Text>
+                                </View>
+                                <TextInput
+                                    style={styles.input}
+                                    onChangeText={(code) => setCode(code)}
+                                    placeholderTextColor="#000"
+                                    autoCapitalize='none' />
+                            </View>
                             <Button title="Confirm" onPress={() => {
-                                viewList(name);
-                                setModalVisible2(false);
-                                navigation.navigate("HomeScreen");}
+                                    const db = getDatabase();
+                                    const name2 = name.split("@");
+                                    const userName = name2[0];
+                                    const reference = ref(db,userName+'pass'+'/');
+                                    get(reference).then((snapshot) => {
+                                    if (snapshot.exists()) {
+                                    setCode2(snapshot.val().passCode);
+                                    if (code==code2) {
+                                    viewList(name);
+                                    setModalVisible2(false);
+                                    navigation.navigate("HomeScreen");
+                                    }
+                                    else {
+                                    Alert.alert(
+                                    'Error',
+                                    'Wrong code',
+                                    [{ text: 'Okay', onPress: () => console.log('Alert Closed') }],
+                                    );
+                                }
+                                    } else {
+                                        viewList(name);
+                                        setModalVisible2(false);
+                                        navigation.navigate("HomeScreen");
+                                    }
+                                    }).catch((error) => {
+                                    console.error(error);
+                                    });
+                            }
                             } />
                         </View>
                     </View>
