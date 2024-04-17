@@ -67,7 +67,7 @@ export default function LoginScreen({ navigation }) {
               autoCapitalize='none'
             />
             <MaterialCommunityIcons
-              name={showPassword ? 'eye' : 'eye-off'}
+              name={showPassword ? 'eye-off' : 'eye'}
               size={24}
               color="#aaa"
               style={styles.icon}

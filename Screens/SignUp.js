@@ -151,7 +151,7 @@ export default function SignUp({ navigation }) {
               autoCapitalize='none'
             />
             <MaterialCommunityIcons
-              name={showPassword ? 'eye' : 'eye-off'}
+              name={showPassword ? 'eye-off' : 'eye'}
               size={24}
               color="#aaa"
               style={styles.icon}
@@ -168,7 +168,7 @@ export default function SignUp({ navigation }) {
               autoCapitalize='none'
             />
             <MaterialCommunityIcons
-              name={showPassword ? 'eye' : 'eye-off'}
+              name={showPassword ? 'eye-off' : 'eye'}
               size={24}
               color="#aaa"
               style={styles.icon}

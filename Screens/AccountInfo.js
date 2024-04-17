@@ -35,7 +35,11 @@ export default function AccountInfo({ navigation }) {
             />
             <View style={styles.textContainer}>
                 <Text style={styles.text}>Email Account: {userEmail}</Text>
-                <Text style={styles.text}>First Name: {firstName}</Text>
+            </View>
+            <View style={styles.textContainer}>
+                <Text style={styles.text}>First Name: {firstName}</Text>   
+            </View> 
+            <View style={styles.textContainer}>
                 <Text style={styles.text}>Last Name: {lastName}</Text>
             </View>
             <View>
@@ -59,7 +63,8 @@ const styles = StyleSheet.create({
         height: 100,
         resizeMode: 'contain',
         alignSelf: 'center',
-        margin: 15,
+        margin: 10,
+        marginBottom: 20,
     },
     textContainer: {
         width: 350,
@@ -69,7 +74,6 @@ const styles = StyleSheet.create({
         borderColor: '#eeeeee',
         alignSelf: 'center',
         margin: 8,
-
     },
     text: {
         fontSize: 16,

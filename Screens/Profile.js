@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View, Button, TextInput, Modal,Alert } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, Modal, Alert } from 'react-native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { useState } from 'react'
 import { ScrollView } from 'react-native';
@@ -48,7 +48,8 @@ export default function Profile({ navigation }) {
                 <View>
                     <Button title="View your list" onPress={() => {
                         users.push(userName);
-                    navigation.navigate("HomeScreen");}}></Button>
+                        navigation.navigate("HomeScreen");
+                    }}></Button>
                 </View>
                 <TouchableOpacity onPress={() => setModalVisible(true)}>
                     <Ionicons name="person-add-sharp" size={24} color="black" />
@@ -138,33 +139,33 @@ export default function Profile({ navigation }) {
                                     autoCapitalize='none' />
                             </View>
                             <Button title="Confirm" onPress={() => {
-                                    const db = getDatabase();
-                                    const name2 = name.split("@");
-                                    const userName = name2[0];
-                                    const reference = ref(db,userName+'pass'+'/');
-                                    get(reference).then((snapshot) => {
+                                const db = getDatabase();
+                                const name2 = name.split("@");
+                                const userName = name2[0];
+                                const reference = ref(db, userName + 'pass' + '/');
+                                get(reference).then((snapshot) => {
                                     if (snapshot.exists()) {
-                                    setCode2(snapshot.val().passCode);
-                                    if (code==code2) {
-                                    viewList(name);
-                                    setModalVisible2(false);
-                                    navigation.navigate("HomeScreen");
-                                    }
-                                    else {
-                                    Alert.alert(
-                                    'Error',
-                                    'Wrong code',
-                                    [{ text: 'Okay', onPress: () => console.log('Alert Closed') }],
-                                    );
-                                }
+                                        setCode2(snapshot.val().passCode);
+                                        if (code == code2) {
+                                            viewList(name);
+                                            setModalVisible2(false);
+                                            navigation.navigate("HomeScreen");
+                                        }
+                                        else {
+                                            Alert.alert(
+                                                'Error',
+                                                'Wrong code',
+                                                [{ text: 'Okay', onPress: () => console.log('Alert Closed') }],
+                                            );
+                                        }
                                     } else {
                                         viewList(name);
                                         setModalVisible2(false);
                                         navigation.navigate("HomeScreen");
                                     }
-                                    }).catch((error) => {
+                                }).catch((error) => {
                                     console.error(error);
-                                    });
+                                });
                             }
                             } />
                         </View>
@@ -218,7 +219,7 @@ const styles = StyleSheet.create({
     },
     modalView: {
         width: 370,
-        height: 240,
+        height: 330,
         backgroundColor: 'white',
         borderRadius: 20,
         justifyContent: 'center',
