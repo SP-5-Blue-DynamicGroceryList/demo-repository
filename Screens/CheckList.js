@@ -9,10 +9,7 @@ import { getAuth } from "firebase/auth";
 import { users } from './Profile.js';
 
 export default function CheckList() {
-
-
-    const listToView = users[users.length-1];
-    
+    const listToView = users[users.length - 1];
 
     const [items, setItems] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);

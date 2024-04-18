@@ -3,46 +3,45 @@ import { View, Text, StyleSheet, Button, TextInput, Alert, Image, TouchableOpaci
 import { useState } from 'react';
 import { Dropdown } from 'react-native-element-dropdown';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 
 export default function ForgotPassword({ navigation }) {
+  // const [value, setValue] = useState("" | null);
+  const [email, setEmail] = useState("" | null);
 
-  const [value, setValue] = useState("" | null);
-  const [answer, setAnswer] = useState("" | null);
+  const auth = getAuth();
 
-  const data = [
-    { label: 'What city were you born in?', value: 1 },
-    { label: 'What is your oldest sibling\'s middle name?', value: 2 },
-    { label: 'What was the first concert you attended?', value: 3 },
-    { label: 'What is your mother\'s maiden name?', value: 4 },
-    { label: 'What was the make and model of your first car?', value: 5 },
-    { label: 'What is your dream job?', value: 6 },
-  ]
+  const resetPassword = (email) => {
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        Alert.alert("Password reset link has sent successfully")
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert(errorMessage);
+      });
+  }
 
   return (
     <KeyboardAwareScrollView style={styles.container} extraScrollHeight={70}>
-      <View style={{ justifyContent: 'center' }}>
+      <View style={{ alignItems: 'center' }}>
         <Text style={styles.header}>Password Reset</Text>
-        <Dropdown
-          style={styles.dropdown}
-          data={data}
-          maxHeight={300}
-          labelField="label"
-          valueField="value"
-          placeholder="Security Question"
-          value={value}
-          onChange={item => {
-            setValue(item.value);
-          }}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Answer"
-        />
-        <TouchableOpacity
-          style={styles.buttonContainer}
-          onPress={() => navigation.navigate("LoginScreen")}>
-          <Text style={styles.buttonText}>Change Password</Text>
-        </TouchableOpacity>
+        <Text style={styles.text}>Enter your email to receive a password reset link</Text>
+        <View style={styles.group}>
+          <TextInput
+            style={styles.input}
+            placeholder="Email Address"
+            autoCapitalize='none'
+            value={email}
+            onChangeText={(text) => setEmail(text)}
+          />
+          <TouchableOpacity
+            style={styles.buttonContainer}
+            onPress={() => resetPassword(email)}>
+            <Text style={styles.buttonText}>Send Link</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </KeyboardAwareScrollView>
   )
@@ -57,17 +56,14 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 28,
-    paddingVertical: 20,
-    alignSelf: 'center',
+    paddingVertical: 10,
     margin: 5,
   },
-  dropdown: {
-    marginVertical: 5,
-    height: 50,
-    borderColor: '#bcbcbc',
-    borderWidth: 1,
-    borderRadius: 20,
-    padding: 10,
+  text: {
+    fontSize: 14,
+  },
+  group: {
+    paddingVertical: 60,
   },
   input: {
     backgroundColor: '#eeeeee',

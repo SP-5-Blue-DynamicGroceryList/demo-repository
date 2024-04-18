@@ -15,16 +15,16 @@ export default function AccountInfo({ navigation }) {
     const [lastName, setLName] = useState("");
 
     const db = getDatabase();
-    const reference = ref(db,userAddress+'user'+'/');
+    const reference = ref(db, userAddress + 'user' + '/');
     get(reference).then((snapshot) => {
         if (snapshot.exists()) {
             setFName(snapshot.val().firstName);
             setLName(snapshot.val().lastName);
         } else {
             console.log("No data available");
-  }
-        }).catch((error) => {
-            console.error(error);
+        }
+    }).catch((error) => {
+        console.error(error);
     });
 
     return (
@@ -37,8 +37,8 @@ export default function AccountInfo({ navigation }) {
                 <Text style={styles.text}>Email Account: {userEmail}</Text>
             </View>
             <View style={styles.textContainer}>
-                <Text style={styles.text}>First Name: {firstName}</Text>   
-            </View> 
+                <Text style={styles.text}>First Name: {firstName}</Text>
+            </View>
             <View style={styles.textContainer}>
                 <Text style={styles.text}>Last Name: {lastName}</Text>
             </View>

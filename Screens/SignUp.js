@@ -1,6 +1,5 @@
 import { View, Text, StyleSheet, Button, TextInput, Alert, Image, TouchableOpacity } from "react-native";
 import { useState } from 'react';
-import { Dropdown } from 'react-native-element-dropdown';
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { FIREBASE_AUTH } from '../Firebase/FirebaseConfig.ts';
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -11,19 +10,6 @@ import { writePasscodeData } from '../Firebase/FirebaseConfig.ts';
 
 
 export default function SignUp({ navigation }) {
-
-  // const [value, setValue] = useState("" | null);
-  // const [answer, setAnswer] = useState("");
-
-  // const data = [
-  //   { label: 'What city were you born in?', value: 1 },
-  //   { label: 'What is your oldest sibling\'s middle name?', value: 2 },
-  //   { label: 'What was the first concert you attended?', value: 3 },
-  //   { label: 'What is your mother\'s maiden name?', value: 4 },
-  //   { label: 'What was the make and model of your first car?', value: 5 },
-  //   { label: 'What is your dream job?', value: 6 },
-  // ]
-
   const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFName] = useState("");
@@ -39,7 +25,6 @@ export default function SignUp({ navigation }) {
   const auth = FIREBASE_AUTH;
 
 
-
   const signUp = async () => {
     try {
       if (password === verifyPassword) {
@@ -52,8 +37,8 @@ export default function SignUp({ navigation }) {
         const userAddress = userNameSplit[0];
         const response = await createUserWithEmailAndPassword(auth, userName, password);
         console.log(response);
-        writePersonalData(firstName,lastName,userAddress);
-        writePasscodeData(pinCode,userAddress)
+        writePersonalData(firstName, lastName, userAddress);
+        writePasscodeData(pinCode, userAddress)
         navigation.navigate("LoginScreen");
       } else {
         Alert.alert(
@@ -72,10 +57,6 @@ export default function SignUp({ navigation }) {
       );
     }
   }
-  // const handleAnswer = (answer) => {
-  //   setAnswer(answer);
-  //   console.log(answer);
-  // }
 
   const handleUsername = (userName) => {
     setUsername(userName);
@@ -116,24 +97,23 @@ export default function SignUp({ navigation }) {
           source={require('../Images/SignUpImage/cart.png')}
         />
         <Text style={styles.header}>Sign Up</Text>
+        <Text style={styles.subheading}>Set up your code to allow others to access your grocery list</Text>
         <View>
-        <TextInput
+          <TextInput
             style={styles.input}
-            placeholder="Set up your code to allow others to access your grocery list"
-          onChangeText={handlePCode}
-          autoCapitalize='none'
+            placeholder="Unique Code"
+            onChangeText={handlePCode}
+            autoCapitalize='none'
           />
           <TextInput
             style={styles.input}
             placeholder="First Name"
-          onChangeText={handleFName}
-          autoCapitalize='none'
+            onChangeText={handleFName}
           />
           <TextInput
             style={styles.input}
             placeholder="Last Name"
-          onChangeText={handleLName}
-          autoCapitalize='none'
+            onChangeText={handleLName}
           />
           <TextInput
             style={styles.input}
@@ -176,23 +156,6 @@ export default function SignUp({ navigation }) {
             />
           </View>
         </View>
-        {/* <Dropdown
-          style={styles.dropdown}
-          data={data}
-          maxHeight={300}
-          labelField="label"
-          valueField="value"
-          placeholder="Security Question"
-          value={value}
-          onChange={item => {
-            setValue(item.value);
-          }}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Answer"
-          onChangeText={handleAnswer}
-        /> */}
         <TouchableOpacity
           style={styles.buttonContainer}
           onPress={signUp}>
@@ -220,12 +183,18 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     alignSelf: 'center',
     margin: 15,
-    marginTop: 70,
+    marginTop: 50,
   },
   header: {
     fontSize: 28,
     paddingVertical: 5,
     alignSelf: 'center',
+  },
+  subheading: {
+    fontSize: 14,
+    padding: 5,
+    margin: 5,
+    textAlign: 'center',
   },
   parent: {
     justifyContent: 'center',
@@ -235,7 +204,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     width: 350,
     height: 50,
-    marginVertical: 10,
+    marginVertical: 5,
     padding: 10,
     justifyContent: 'center',
     flex: 1,
@@ -246,14 +215,6 @@ const styles = StyleSheet.create({
   },
   button: {
     width: '33%',
-  },
-  dropdown: {
-    marginVertical: 5,
-    height: 50,
-    borderColor: '#bcbcbc',
-    borderWidth: 1,
-    borderRadius: 20,
-    padding: 10,
   },
   buttonContainer: {
     width: 350,
@@ -272,7 +233,7 @@ const styles = StyleSheet.create({
   },
   text: {
     flexDirection: 'row',
-    marginTop: 40,
+    marginTop: 20,
     justifyContent: 'center',
   },
   buttonText2: {
