@@ -8,7 +8,6 @@ import TopBarNavigator from "./Navigators/TopBarNavigator";
 import BottomBarNavigator from "./Navigators/BottomBarNavigator"
 import ForgotPassword from "./Screens/ForgotPassword";
 
-// Testing changes
 const Stack = createNativeStackNavigator(); //similar to Stack data structure
 
 export default function App() {
@@ -22,12 +21,5 @@ export default function App() {
         <Stack.Screen options={{ title: "" }} name="ForgotPassword" component={ForgotPassword} />
       </Stack.Navigator>
     </NavigationContainer>
-
-
-    // <SafeAreaProvider>
-    //     <TopBarNavigator />
-    //      Testing Comment VC
-    // </SafeAreaProvider>
   );
 }
-
